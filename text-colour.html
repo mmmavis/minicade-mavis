@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Text Colour</title>
+  <link rel="icon" type="image/png" href="">
+  <style>
+    body {
+      background: #FFF;
+      color: #222;
+      font-size: 30px;
+      font-family: Sans-serif, Verdana;
+    }
+    .container {
+      margin: 50px auto;
+      width: 1080px;
+      overflow: hidden;
+      text-align: center;
+    }
+    .sub-container {
+      float: left;
+      box-sizing: border-box;
+      width: 50%;
+      padding: 50px 20px;
+    }
+    .display {
+      font-family: Impact;
+      font-size: 150px;
+      text-transform: capitalize;
+    }
+    #guess {
+      background: rgba(100,100,100,0.1);
+      border-radius: 20px;
+    }
+    #question {
+      font-size: 20px;
+    }
+    #leftOrRight {
+      font-size: 30px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    #selections {
+      list-style-type: none;
+      padding-left: 0;
+      overflow: hidden;
+    }
+    #selections li {
+      float: left;
+      width: 16.6%;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+    #selections li:hover {
+      color: #888;
+    }
+    @media (max-width: 1080px) {
+      .container {
+        width: 100%;
+      }
+      body {
+        font-size: 15px;
+      }
+      .display {
+        font-size: 120px;
+      }
+    }
+    @media (max-width: 700px) {
+      .container {
+        width: 100%;
+      }
+      body {
+        font-size: 15px;
+      }
+      .display {
+        font-size: 100px;
+      }
+    }
+    @media (max-width: 480px) {
+      .display {
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+  <body>
+    <div class="container">
+      <!-- <div>Score: <span id="score">0</span></div> -->
+      <div id="question">What's the colour of the text on the <span id="leftOrRight">LEFT</span></div>
+    </div>
+    <div class="container">
+      <div class="sub-container" id="left-container">
+        <div class="display"></div>
+      </div>
+      <div class="sub-container" id="right-container">
+        <div class="display"></div>
+      </div>
+    </div>
+    <div class="container" id="guess">
+      <ul id="selections">
+        <li data-colour="blue">blue</li>
+        <li data-colour="red">red</li>
+        <li data-colour="yellow">yellow</li>
+        <li data-colour="green">green</li>
+        <li data-colour="orange">orange</li>
+        <li data-colour="purple">purple</li>
+      </ul>
+    </div>
+    <script src="http://minicade.herokuapp.com/tinygame.js"></script>
+    <script>
+      // var score = 0;
+      var currentAns = "";
+      var textColourNames = [ "blue", "red", "yellow", "green", "orange", "purple"];
+      var textColourCodes = [ "#0db0ed", "#FF0000", "#fffd2b", "#12b448", "#ffa42e", "#a26ef5" ];
+      var answer = "";
+      var answerIdx = 0;
+      function leftOrRight() {
+        return (  Math.floor(Math.random() * 2) == 0 ) ? true : false; // true if left is chosen
+      }
+      function randomize() {
+        var rand = Math.floor( Math.random() * textColourNames.length );
+        return rand;
+      }
+      function makeQuestion() {
+        answerIdx = randomize();
+        var colourCode = textColourCodes[answerIdx];
+        var leftOrRightLabel = document.querySelector("#leftOrRight");
+        var leftDisplay = document.querySelector("#left-container .display");
+        var rightDisplay = document.querySelector("#right-container .display");
+        leftDisplay.textContent = textColourNames[randomize()];
+        rightDisplay.textContent = textColourNames[randomize()];
+        if ( leftOrRight() ) {
+          leftOrRightLabel.textContent = "left";
+          leftDisplay.style.color = colourCode;
+          rightDisplay.style.color = textColourCodes[randomize()];
+        } else {
+          leftOrRightLabel.textContent = "right";
+          leftDisplay.style.color = textColourCodes[randomize()];
+          rightDisplay.style.color = colourCode;
+        }
+      }
+      document.querySelector("#selections").addEventListener("click",function(event){
+        if ( event.target.hasAttribute("data-colour") ) {
+          console.log( event.target.getAttribute("data-colour") );
+          var playerAns = event.target.getAttribute("data-colour");
+          console.log( "player answer = " + playerAns);
+          console.log( "ANSWER should be = " + textColourNames[answerIdx]);
+          if ( playerAns == textColourNames[answerIdx] ) {
+            // score += 100;
+            Tinygame.win();
+          } else {
+            // score -= 100;
+            Tinygame.lose();
+          }
+          // document.querySelector("#score").textContent = score;
+          }
+      });
+
+      Tinygame.onplay = function() {
+        // Start accepting user input, animating sprites, etc...
+        console.log("Game started!");
+        makeQuestion();
+      };
+
+      Tinygame.onoutoftime = function() {
+        // Stop accepting user input, show ending animation, etc...
+        console.log("Player ran out of time!");
+      };
+
+    </script>
+  </body>
+</html>

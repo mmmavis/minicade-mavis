@@ -1,0 +1,6 @@
+logs/*
+tmp
+.DS_Store
+.env
+TODO.txt
+backup.js
