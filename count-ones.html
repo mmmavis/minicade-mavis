@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <title>Text Colour</title>
+  <title>Count 1s</title>
   <link rel="icon" type="image/png" href="">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
@@ -23,17 +23,16 @@
     .sub-container {
       float: left;
       box-sizing: border-box;
-      width: 50%;
+      width: 100%;
       margin-top: 20px;
       margin-bottom: 20px;
     }
     .display {
       font-family: 'Oswald', sans-serif;
       font-size: 150px;
-      text-transform: capitalize;
     }
     #question {
-      font-size: 20px;
+      font-size: 25px;
     }
     #leftOrRight {
       font-size: 30px;
@@ -100,65 +99,60 @@
   <body>
     <div class="container">
       <!-- <div>Score: <span id="score">0</span></div> -->
-      <div id="question">What's the colour of the text on the <span id="leftOrRight">LEFT</span></div>
+      <div id="question">How many 1s are there?</div>
     </div>
     <div class="container">
-      <div class="sub-container" id="left-container">
-        <div class="display"></div>
-      </div>
-      <div class="sub-container" id="right-container">
-        <div class="display"></div>
+      <div class="sub-container">
+        <div class="display">111l1l1l1l1l</div>
       </div>
     </div>
     <div class="container" id="guess">
       <ul id="selections">
-        <li data-colour="blue">blue</li>
-        <li data-colour="red">red</li>
-        <li data-colour="yellow">yellow</li>
-        <li data-colour="green">green</li>
-        <li data-colour="orange">orange</li>
-        <li data-colour="purple">purple</li>
+        <li data-num="6">6</li>
+        <li data-num="7">7</li>
+        <li data-num="8">8</li>
+        <li data-num="9">9</li>
+        <li data-num="10">10</li>
+        <li data-num="11">11</li>
       </ul>
     </div>
     <script src="http://minicade.herokuapp.com/tinygame.js"></script>
     <script>
       // var score = 0;
-      var currentAns = "";
-      var textColourNames = [ "blue", "red", "yellow", "green", "orange", "purple"];
-      var textColourCodes = [ "#0db0ed", "#FF0000", "#fffd2b", "#12b448", "#ffa42e", "#a26ef5" ];
-      var answerIdx = 0;
-      function leftOrRight() {
-        return (  Math.floor(Math.random() * 2) == 0 ) ? true : false; // true if left is chosen
-      }
+      var numOnes;
+      var numLs;
       function randomize() {
-        var rand = Math.floor( Math.random() * textColourNames.length );
+        var rand = 5 + Math.floor( Math.random() * 6 );
         return rand;
       }
       function makeQuestion() {
-        answerIdx = randomize();
-        var colourCode = textColourCodes[answerIdx];
-        var leftOrRightLabel = document.querySelector("#leftOrRight");
-        var leftDisplay = document.querySelector("#left-container .display");
-        var rightDisplay = document.querySelector("#right-container .display");
-        leftDisplay.textContent = textColourNames[randomize()];
-        rightDisplay.textContent = textColourNames[randomize()];
-        if ( leftOrRight() ) {
-          leftOrRightLabel.textContent = "left";
-          leftDisplay.style.color = colourCode;
-          rightDisplay.style.color = textColourCodes[randomize()];
-        } else {
-          leftOrRightLabel.textContent = "right";
-          leftDisplay.style.color = textColourCodes[randomize()];
-          rightDisplay.style.color = colourCode;
+        var charArr = [];
+        var tempArr = [];
+        var display = document.querySelector(".display");
+        numOnes = randomize();
+        numLs = randomize();
+        console.log("num of 1 = " + numOnes );
+        console.log("num of L = " + numLs );
+        for (var i=0; i<numOnes; i++) {
+          tempArr.push("1");
         }
+        for (var i=0; i<numLs; i++) {
+          tempArr.push("l");
+        }
+        while ( tempArr.length > 0 ) {
+          var randIdx = Math.floor( Math.random() * tempArr.length );
+          var charPicked = tempArr[randIdx];
+          charArr.push(charPicked);
+          tempArr.splice(randIdx,1);
+        }
+        display.textContent = charArr.join("");
       }
       document.querySelector("#selections").addEventListener("click",function(event){
-        if ( event.target.hasAttribute("data-colour") ) {
-          console.log( event.target.getAttribute("data-colour") );
-          var playerAns = event.target.getAttribute("data-colour");
+        if ( event.target.hasAttribute("data-num") ) {
+          var playerAns = event.target.getAttribute("data-num");
           console.log( "player answer = " + playerAns);
-          console.log( "ANSWER should be = " + textColourNames[answerIdx]);
-          if ( playerAns == textColourNames[answerIdx] ) {
+          console.log( "ANSWER should be = " + numOnes);
+          if ( playerAns == numOnes ) {
             // score += 100;
             Tinygame.win();
           } else {
