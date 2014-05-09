@@ -115,6 +115,10 @@
         body {
           font-size: 20px;
         }
+        main {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
       }
       @media (max-width: 480px) {
         h1 {
@@ -122,6 +126,13 @@
         }
         #look-for {
           font-size: 30px;
+        }
+        #question {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        #question img {
+          width: 100%;
         }
       }
     </style>
@@ -153,19 +164,27 @@
         "Pika Pika Pikachu",
         "Go Go Power Rangers"
       ];
+      var idxChosen = randomize();
+      var sentence = sentenceList[ idxChosen ];
       function randomize() {
         return Math.floor( Math.random() * (sentenceList.length) );
       }
       function makeQuestion() {
         var display = document.querySelector(".parts.whole");
-        var sentence = sentenceList[ randomize() ];
         console.log("Sentence selected = " + sentence );
         display.textContent =sentence
       }
       document.querySelector("#selections-section ul").addEventListener("click",function(event){
         if ( event.target.hasAttribute("data-ans") ) {
           var playerAns = event.target.getAttribute("data-ans");
+          var questionArea = document.querySelector("#question");
           console.log( "player answer = " + playerAns);
+          if ( idxChosen == 0 ) {
+            questionArea.innerHTML = "<img src='http://media.giphy.com/media/rCftUAVPLExZC/giphy.gif'>";
+          } else {
+            questionArea.innerHTML = "<img src='http://media1.giphy.com/media/RfzzO0Y4SKyJy/giphy.gif'>";
+          }
+
           document.querySelector("#selections-section").innerHTML = "<div id='do-not-cheat'>DO NOT CHEAT</div>";
           score -= 100;
           Tinygame.lose();

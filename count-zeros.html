@@ -1,142 +1,176 @@
 <!doctype html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <title>Count 0s</title>
-  <link rel="icon" type="image/png" href="">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-  <style>
-    html,
-    body {
-      height: 100%;
-    }
-    body {
-      background: #FFF;
-      color: #222;
-      font-size: 30px;
-      font-family: 'Open Sans Condensed', sans-serif;
-    }
-    .container {
-      margin: 40px auto;
-      width: 1080px;
-      overflow: hidden;
-      text-align: center;
-    }
-    .sub-container {
-      float: left;
-      box-sizing: border-box;
-      width: 100%;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    .display {
-      font-family: 'Oswald', sans-serif;
-      font-size: 150px;
-    }
-    #question {
-      font-size: 25px;
-    }
-    #look-for {
-      font-family: 'Oswald', sans-serif;
-    }
-    #leftOrRight {
-      font-size: 30px;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-    #selections {
-      list-style-type: none;
-      padding-left: 0;
-      overflow: hidden;
-      text-align: center;
-    }
-    #selections li {
-      float: left;
-      display: block;
-      text-transform: capitalize;
-      cursor: pointer;
-      padding-top: 15px;
-      padding-bottom: 15px;
-      width: 12%;
-      margin-left: 2.3%;
-      margin-right: 2.3%;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      background: rgba(100,100,100,0.1);
-    }
-    #selections li:hover {
-      color: #FFF;
-      background: rgba(100,100,100,0.5);
-    }
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Count 0s</title>
+    <link rel="icon" type="image/png" href="">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: #FFF;
+        color: #222;
+        font-size: 30px;
+        font-family: 'Open Sans Condensed', sans-serif;
+      }
+      main {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        text-align: center;
+      }
+      .container {
+        margin: 0 auto;
+        width: 1080px;
+        overflow: hidden;
+        position: relative;
+      }
+      #question-section {
+        overflow: hidden;
+      }
+      h1 {
+        font-size: 30px;
+        font-weight: normal;
+      }
+      #look-for {
+        font-size: 40px;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+      #question {
+        box-sizing: border-box;
+        font-family: 'Oswald', sans-serif;
+        font-size: 150px;
+        overflow: hidden;
+        margin-top: 70px;
+        margin-bottom: 70px;
+      }
+      #question .parts {
+        float: left;
+      }
+      #question .parts.whole {
+        width: 100%;
+      }
+      #question .parts.half {
+        width: 50%;
+      }
+      #selections-section {
+      }
+      #selections-section ul {
+        list-style-type: none;
+        padding-left: 0;
+        overflow: hidden;
+        text-align: center;
+      }
+      #selections-section ul li {
+        float: left;
+        display: block;
+        text-transform: capitalize;
+        cursor: pointer;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        width: 12%;
+        margin-left: 2.3%;
+        margin-right: 2.3%;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        background: rgba(100,100,100,0.1);
+      }
+      #selections-section ul li:hover {
+        color: #FFF;
+        background: rgba(100,100,100,0.5);
+      }
+      footer {
+        text-align: right;
+        font-size: 12px;
+      }
+      a {
+        color: #B1F2CF;
+        text-decoration: none;
+        margin-right: 10px;
+      }
+      a:hover {
+        color: #3EC9A7;
+      }
 
-    @media (max-width: 1080px) {
-      .container {
-        width: 100%;
+      @media (max-width: 1080px) {
+        .container {
+          width: 100%;
+        }
+        #question {
+          font-size: 120px;
+        }
       }
-      body {
-        font-size: 15px;
+      @media (max-width: 700px) {
+        body {
+          font-size: 20px;
+        }
+        #question {
+          font-size: 90px;
+        }
+        main {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
       }
-      .display {
-        font-size: 120px;
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 20px;
+        }
+        #look-for {
+          font-size: 30px;
+        }
+        #question {
+          font-size: 50px;
+        }
+        #selections-section ul li {
+          width: 28.7%
+        }
       }
-    }
-    @media (max-width: 700px) {
-      .container {
-        width: 100%;
-      }
-      body {
-        font-size: 15px;
-      }
-      .display {
-        font-size: 100px;
-      }
-    }
-    @media (max-width: 480px) {
-      .display {
-        font-size: 50px;
-      }
-      #selections li {
-        width: 28.7%;
-      }
-    }
-  </style>
-</head>
+    </style>
+  </head>
   <body>
-    <div class="container">
-      <!-- <div>Score: <span id="score">0</span></div> -->
-      <div id="question">How many <span id="look-for">0</span>s are there?</div>
-    </div>
-    <div class="container">
-      <div class="sub-container">
-        <div class="display">0OOO000OOO00</div>
+    <main class="container">
+      <div style="display:none">Score: <span id="score">0</span></div>
+      <div id="question-section">
+        <h1>How many <span id="look-for">0</span>s are there?</h1>
+        <div id="question">
+          <div class="parts whole"></div>
+        </div>
       </div>
-    </div>
-    <div class="container" id="guess">
-      <ul id="selections">
-        <li data-num="1">1</li>
-        <li data-num="2">2</li>
-        <li data-num="3">3</li>
-        <li data-num="4">4</li>
-        <li data-num="5">5</li>
-        <li data-num="6">6</li>
-      </ul>
-    </div>
+      <div id="selections-section">
+        <ul>
+          <li data-ans="1">1</li>
+          <li data-ans="2">2</li>
+          <li data-ans="3">3</li>
+          <li data-ans="4">4</li>
+          <li data-ans="5">5</li>
+          <li data-ans="6">6</li>
+        </ul>
+      </div>
+    </main>
+    <footer class="container">
+      <a href="https://twitter.com/ohmmmavis" target="_blank">@ohmmmavis</a>
+    </footer>
+
     <script src="http://minicade.herokuapp.com/tinygame.js"></script>
     <script>
-      // var score = 0;
+      var score = 0;
       var numZeros;
       var numOs;
       function randomize() {
-        var rand = 1 + Math.floor( Math.random() * 6 );
-        return rand;
+        return 1 + Math.floor( Math.random() * 6 );
       }
       function makeQuestion() {
         var charArr = [];
         var tempArr = [];
-        var display = document.querySelector(".display");
+        var display = document.querySelector(".parts.whole");
         numZeros = randomize();
         numOs = randomize();
         console.log("num of 0 = " + numZeros );
@@ -155,20 +189,20 @@
         }
         display.textContent = charArr.join("");
       }
-      document.querySelector("#selections").addEventListener("click",function(event){
-        if ( event.target.hasAttribute("data-num") ) {
-          var playerAns = event.target.getAttribute("data-num");
+      document.querySelector("#selections-section ul").addEventListener("click",function(event){
+        if ( event.target.hasAttribute("data-ans") ) {
+          var playerAns = event.target.getAttribute("data-ans");
           console.log( "player answer = " + playerAns);
           console.log( "ANSWER should be = " + numZeros);
-          document.querySelector("#guess").innerHTML = "You chose " + playerAns;
+          document.querySelector("#selections-section").innerHTML = "You selected " + playerAns;
           if ( playerAns == numZeros ) {
-            // score += 100;
+            score += 100;
             Tinygame.win();
           } else {
-            // score -= 100;
+            score -= 100;
             Tinygame.lose();
           }
-          // document.querySelector("#score").textContent = score;
+          document.querySelector("#score").textContent = score;
           }
       });
 
@@ -184,5 +218,6 @@
       };
 
     </script>
+
   </body>
 </html>
