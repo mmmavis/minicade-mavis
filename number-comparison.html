@@ -3,7 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <title>Count 1s</title>
+  <title>Number Comparison</title>
   <link rel="icon" type="image/png" href="">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
@@ -31,9 +31,20 @@
       margin-top: 20px;
       margin-bottom: 20px;
     }
+    .sub-container div {
+      float: left;
+    }
+    #number-left,
+    #number-right {
+      width: 45%;
+    }
+    #bigger-than-sign {
+      width: 10%;
+    }
     .display {
       font-family: 'Oswald', sans-serif;
-      font-size: 150px;
+      font-size: 70px;
+      width: 100%;
     }
     #question {
       font-size: 25px;
@@ -59,9 +70,9 @@
       cursor: pointer;
       padding-top: 15px;
       padding-bottom: 15px;
-      width: 12%;
-      margin-left: 2.3%;
-      margin-right: 2.3%;
+      width: 45%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
       margin-top: 10px;
       margin-bottom: 15px;
       border-radius: 10px;
@@ -80,7 +91,7 @@
         font-size: 15px;
       }
       .display {
-        font-size: 120px;
+        font-size: 70px;
       }
     }
     @media (max-width: 700px) {
@@ -91,15 +102,12 @@
         font-size: 15px;
       }
       .display {
-        font-size: 100px;
+        font-size: 45px;
       }
     }
     @media (max-width: 480px) {
       .display {
-        font-size: 50px;
-      }
-      #selections li {
-        width: 28.7%;
+        font-size: 30px;
       }
     }
   </style>
@@ -107,61 +115,47 @@
   <body>
     <div class="container">
       <!-- <div>Score: <span id="score">0</span></div> -->
-      <div id="question">How many <span id="look-for">1</span>s are there?</div>
+      <div id="question"></div>
     </div>
     <div class="container">
       <div class="sub-container">
-        <div class="display">111l1l1l1l1l</div>
+        <div class="display">
+          <div id="number-left"></div>
+          <div id="bigger-than-sign"> > </div>
+          <div id="number-right"></div>
+        </div>
       </div>
     </div>
     <div class="container" id="guess">
       <ul id="selections">
-        <li data-num="5">5</li>
-        <li data-num="6">6</li>
-        <li data-num="7">7</li>
-        <li data-num="8">8</li>
-        <li data-num="9">9</li>
-        <li data-num="10">10</li>
+        <li data-ans="true">true</li>
+        <li data-ans="false">false</li>
       </ul>
     </div>
     <script src="http://minicade.herokuapp.com/tinygame.js"></script>
     <script>
       // var score = 0;
-      var numOnes;
-      var numLs;
-      function randomize() {
-        var rand = 5 + Math.floor( Math.random() * 6 );
-        return rand;
+      var baseMulti = 9999999;
+      var additionMulti = 999999;
+      var leftIsBigger;
+      function randomize(multiplier) {
+        multiplier = multiplier || 1;
+        return Math.floor( Math.random() * multiplier );
       }
       function makeQuestion() {
-        var charArr = [];
-        var tempArr = [];
-        var display = document.querySelector(".display");
-        numOnes = randomize();
-        numLs = randomize();
-        console.log("num of 1 = " + numOnes );
-        console.log("num of L = " + numLs );
-        for (var i=0; i<numOnes; i++) {
-          tempArr.push("1");
-        }
-        for (var i=0; i<numLs; i++) {
-          tempArr.push("l");
-        }
-        while ( tempArr.length > 0 ) {
-          var randIdx = Math.floor( Math.random() * tempArr.length );
-          var charPicked = tempArr[randIdx];
-          charArr.push(charPicked);
-          tempArr.splice(randIdx,1);
-        }
-        display.textContent = charArr.join("");
+        var numLeft = randomize(baseMulti) + ( randomize(additionMulti) / 1000 );
+        var numRight = randomize(baseMulti) + ( randomize(additionMulti) / 1000 );
+        document.querySelector("#number-left").textContent = numLeft;
+        document.querySelector("#number-right").textContent = numRight;
+        leftIsBigger = ( numLeft > numRight ) ? "true" : "false";
       }
       document.querySelector("#selections").addEventListener("click",function(event){
-        if ( event.target.hasAttribute("data-num") ) {
-          var playerAns = event.target.getAttribute("data-num");
+        if ( event.target.hasAttribute("data-ans") ) {
+          var playerAns = event.target.getAttribute("data-ans");
           console.log( "player answer = " + playerAns);
-          console.log( "ANSWER should be = " + numOnes);
+          console.log( "ANSWER should be = " + leftIsBigger);
           document.querySelector("#guess").innerHTML = "You chose " + playerAns;
-          if ( playerAns == numOnes ) {
+          if ( playerAns == leftIsBigger ) {
             // score += 100;
             Tinygame.win();
           } else {

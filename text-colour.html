@@ -8,6 +8,10 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
   <style>
+    html,
+    body {
+      height: 100%;
+    }
     body {
       background: #FFF;
       color: #222;
@@ -15,7 +19,7 @@
       font-family: 'Open Sans Condensed', sans-serif;
     }
     .container {
-      margin: 50px auto;
+      margin: 40px auto;
       width: 1080px;
       overflow: hidden;
       text-align: center;
@@ -48,6 +52,7 @@
     }
     #selections li {
       float: left;
+      display: block;
       text-transform: capitalize;
       cursor: pointer;
       padding-top: 15px;
@@ -158,6 +163,7 @@
           var playerAns = event.target.getAttribute("data-colour");
           console.log( "player answer = " + playerAns);
           console.log( "ANSWER should be = " + textColourNames[answerIdx]);
+          document.querySelector("#guess").innerHTML = "You chose " + playerAns;
           if ( playerAns == textColourNames[answerIdx] ) {
             // score += 100;
             Tinygame.win();
